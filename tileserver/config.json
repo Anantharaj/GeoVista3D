@@ -1,0 +1,22 @@
+{
+  "options": {
+    "paths": {
+      "root": "",
+      "fonts": "fonts",
+      "mbtiles": ""
+    }
+  },
+  "styles": {
+    "uae-3d-style": {
+      "style": "styles/style.json",
+      "tilejson": {
+        "type": "vector"
+      }
+    }
+  },
+  "data": {
+    "uae-vector": {
+      "mbtiles": "uae.mbtiles"
+    }
+  }
+}

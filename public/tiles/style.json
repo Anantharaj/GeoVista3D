@@ -1,0 +1,92 @@
+{
+  "version": 8,
+  "name": "Offline UAE 3D Dark Vector",
+  "center": [55.2708, 25.2048],
+  "zoom": 14,
+  "pitch": 60,
+  "bearing": -17.6,
+  "sources": {
+    "openmaptiles": {
+      "type": "vector",
+      "url": "pmtiles:///tiles/uae.pmtiles"
+    },
+    "terrain-dem": {
+      "type": "raster-dem",
+      "url": "pmtiles:///tiles/uae-dem.pmtiles",
+      "tileSize": 256,
+      "maxzoom": 14
+    }
+  },
+  "sprite": "/sprites/sprite",
+  "glyphs": "/fonts/{fontstack}/{range}.pbf",
+  "layers": [
+    {
+      "id": "background",
+      "type": "background",
+      "paint": {
+        "background-color": "#0d1117"
+      }
+    },
+    {
+      "id": "water",
+      "type": "fill",
+      "source": "openmaptiles",
+      "source-layer": "water",
+      "paint": {
+        "fill-color": "#121d33"
+      }
+    },
+    {
+      "id": "landuse",
+      "type": "fill",
+      "source": "openmaptiles",
+      "source-layer": "landuse",
+      "paint": {
+        "fill-color": "#161b22",
+        "fill-opacity": 0.5
+      }
+    },
+    {
+      "id": "roads",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "paint": {
+        "line-color": "#30363d",
+        "line-width": 2
+      }
+    },
+    {
+      "id": "buildings-3d",
+      "type": "fill-extrusion",
+      "source": "openmaptiles",
+      "source-layer": "building",
+      "paint": {
+        "fill-extrusion-color": [
+          "interpolate",
+          ["linear"],
+          ["get", "render_height"],
+          0, "#1f2937",
+          50, "#3b82f6",
+          150, "#8b5cf6",
+          300, "#ec4899"
+        ],
+        "fill-extrusion-height": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          13, 0,
+          13.05, ["get", "render_height"]
+        ],
+        "fill-extrusion-base": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          13, 0,
+          13.05, ["get", "render_min_height"]
+        ],
+        "fill-extrusion-opacity": 0.85
+      }
+    }
+  ]
+}
