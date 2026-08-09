@@ -1,58 +1,43 @@
-# 🗺️ Offline 3D Vector Map Application
+# 🗺️ GeoVista3D — 100% Offline 3D Vector Map Application
 
 A high-performance, 100% offline 3D Map application built with **Next.js 16**, **MapLibre GL JS v5.13**, and **TileServer GL**.
 
-It features 3D extruded building heights, custom camera controls, building inspection popups, and offline vector text labels (street names, district labels, and landmark POIs) without requiring internet connectivity or external API keys.
+It features **3D extruded building elevations**, custom camera view controls, building inspection popups, and **offline vector text labels** (street names, district labels, and landmark POIs) without requiring internet connectivity or external API keys.
 
 ---
 
-## 🌟 Key Features
-
-- **3D Building Extrusions**: Interpolated building heights rendered in WebGL shaders.
-- **100% Air-Gapped & Offline**: Zero calls to external Mapbox or Google APIs.
-- **Vector Text Labels**: Local PBF font glyphs (`Open Sans Regular`, `Noto Sans Regular`) served directly by Next.js.
-- **Location Presets**: Dynamic camera pan/pitch presets (e.g., Al Maryah Island, Dubai Downtown, Abu Dhabi Corniche, Dubai Marina).
-- **Interactive Inspection**: Hover and click cards displaying building height, levels, and type.
-- **Robust Build Setup**: Custom Next.js Turbopack/Webpack aliases ensuring zero SSR or WebWorker import errors.
-
----
-
-## 🏗️ Architecture
-
-```
-                  ┌─────────────────────────────────────────┐
-                  │       Planetiler 3D Vector Tiles        │
-                  │             (uae.mbtiles)               │
-                  └────────────────────┬────────────────────┘
-                                       │
-                                       ▼ (Local Docker Mount)
-                  ┌─────────────────────────────────────────┐
-                  │     TileServer GL Docker Container      │
-                  │         (http://localhost:8080)         │
-                  └────────────────────┬────────────────────┘
-                                       │
-                                       ▼ (Vector Tiles + WebGL Rendering)
-                  ┌─────────────────────────────────────────┐
-                  │          Next.js 16 Application         │
-                  │         (http://localhost:3000)         │
-                  └─────────────────────────────────────────┘
-```
-
----
-
-## 🚀 Quick Start Guide
+## 🚀 How to Run on Any Machine (Mac, Windows, Linux)
 
 ### Prerequisites
-- [Node.js 18+](https://nodejs.org/)
-- [Docker Desktop](https://www.docker.com/)
+
+Make sure you have installed:
+1. **[Node.js 18+](https://nodejs.org/)**
+2. **[Docker Desktop](https://www.docker.com/products/docker-desktop/)** (Make sure Docker is running)
 
 ---
 
-### Step 1: Run Local TileServer GL
+### Step 1: Download Map Dataset
 
-1. Place your vector tiles file `uae.mbtiles` inside a local data folder (e.g. `./tileserver`).
-2. Start the TileServer GL Docker container:
+1. Download **`uae.mbtiles.zip`** from the [GeoVista3D GitHub Release v1.0.0](https://github.com/Anantharaj/GeoVista3D/releases/tag/v1.0.0).
+2. Unzip `uae.mbtiles.zip` to extract **`uae.mbtiles`**.
+3. Move `uae.mbtiles` into the `tileserver/` folder inside this project.
 
+The `tileserver/` folder should now look like:
+```
+tileserver/
+├── config.json
+├── uae.mbtiles   <-- (Downloaded & unzipped file)
+└── styles/
+    └── style.json
+```
+
+---
+
+### Step 2: Start Local TileServer GL (Docker)
+
+Open your terminal in the project root directory and run the command for your OS:
+
+#### 🍏 macOS / 🐧 Linux:
 ```bash
 docker run --name uae-tileserver -d \
   -v $(pwd)/tileserver:/data \
@@ -60,13 +45,23 @@ docker run --name uae-tileserver -d \
   maptiler/tileserver-gl --config /data/config.json
 ```
 
-Verify that TileServer GL is running by visiting [http://localhost:8080](http://localhost:8080).
+#### 🪟 Windows (PowerShell):
+```powershell
+docker run --name uae-tileserver -d -v "${PWD}/tileserver:/data" -p 8080:8080 maptiler/tileserver-gl --config /data/config.json
+```
+
+#### 🪟 Windows (Command Prompt - CMD):
+```cmd
+docker run --name uae-tileserver -d -v "%cd%/tileserver:/data" -p 8080:8080 maptiler/tileserver-gl --config /data/config.json
+```
+
+> **Verify**: Open [http://localhost:8080](http://localhost:8080) in your browser. You should see TileServer GL serving vector tiles.
 
 ---
 
-### Step 2: Run the Next.js Frontend
+### Step 3: Run the Next.js App
 
-1. Install dependencies:
+1. Install project dependencies:
 ```bash
 npm install
 ```
@@ -76,14 +71,24 @@ npm install
 npm run dev
 ```
 
-3. Open [http://localhost:3000](http://localhost:3000) in your browser.
+3. Open [http://localhost:3000](http://localhost:3000) in your browser!
+
+---
+
+## 🌟 Key Features
+
+- **3D Building Extrusions**: Real height elevations rendered in WebGL shaders.
+- **100% Offline**: Zero calls to external Mapbox or Google APIs. Works with Wi-Fi disabled.
+- **Vector Text Labels**: Local PBF font glyphs (`Open Sans Regular`, `Noto Sans Regular`) served directly by Next.js.
+- **Location Presets**: Direct camera navigation (Al Maryah Island, Dubai Downtown, Abu Dhabi Corniche, Dubai Marina).
+- **Interactive Inspection**: Hover and click cards displaying building height, level count, and building type.
 
 ---
 
 ## 📦 Project Structure
 
 ```
-offline-3d-map/
+GeoVista3D/
 ├── public/
 │   └── fonts/             # Offline PBF font glyph ranges
 ├── src/
@@ -97,6 +102,7 @@ offline-3d-map/
 │       └── locations.js   # UAE preset coordinates
 ├── tileserver/
 │   ├── config.json        # TileServer GL configuration
+│   ├── uae.mbtiles        # Place downloaded uae.mbtiles here
 │   └── styles/
 │       └── style.json     # MapLibre vector style with 3D extrusions & labels
 ├── next.config.mjs        # MapLibre Webpack & Turbopack aliases
@@ -107,7 +113,7 @@ offline-3d-map/
 
 ## 🛠️ Production Build
 
-To test and deploy the production bundle:
+To build and run the production bundle:
 
 ```bash
 npm run build
