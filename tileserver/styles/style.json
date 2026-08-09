@@ -1,11 +1,17 @@
 {
   "version": 8,
-  "name": "UAE 3D Vector Style (TileServer GL)",
+  "name": "UAE 3D Natural Earth Style",
   "center": [54.3892, 24.5028],
   "zoom": 15.2,
   "pitch": 65,
   "bearing": -30,
   "glyphs": "http://localhost:3000/fonts/{fontstack}/{range}.pbf",
+  "light": {
+    "anchor": "viewport",
+    "color": "#fffaf0",
+    "intensity": 0.45,
+    "position": [1.15, 210, 35]
+  },
   "sources": {
     "uae-vector": {
       "type": "vector",
@@ -19,16 +25,7 @@
       "id": "background",
       "type": "background",
       "paint": {
-        "background-color": "#eef2f6"
-      }
-    },
-    {
-      "id": "water",
-      "type": "fill",
-      "source": "uae-vector",
-      "source-layer": "water",
-      "paint": {
-        "fill-color": "#a0cbf8"
+        "background-color": "#f6f3eb"
       }
     },
     {
@@ -37,7 +34,46 @@
       "source": "uae-vector",
       "source-layer": "landuse",
       "paint": {
-        "fill-color": "#f5f7fa"
+        "fill-color": "#ede6d8"
+      }
+    },
+    {
+      "id": "landcover",
+      "type": "fill",
+      "source": "uae-vector",
+      "source-layer": "landcover",
+      "paint": {
+        "fill-color": "#d8ebd3",
+        "fill-opacity": 0.7
+      }
+    },
+    {
+      "id": "park",
+      "type": "fill",
+      "source": "uae-vector",
+      "source-layer": "park",
+      "paint": {
+        "fill-color": "#c7e8be",
+        "fill-opacity": 0.8
+      }
+    },
+    {
+      "id": "water",
+      "type": "fill",
+      "source": "uae-vector",
+      "source-layer": "water",
+      "paint": {
+        "fill-color": "#6fa8dc"
+      }
+    },
+    {
+      "id": "transportation-casing",
+      "type": "line",
+      "source": "uae-vector",
+      "source-layer": "transportation",
+      "paint": {
+        "line-color": "#ded5c5",
+        "line-width": 4
       }
     },
     {
@@ -46,8 +82,8 @@
       "source": "uae-vector",
       "source-layer": "transportation",
       "paint": {
-        "line-color": "#cbd5e1",
-        "line-width": 3
+        "line-color": "#ffffff",
+        "line-width": 2
       }
     },
     {
@@ -62,11 +98,11 @@
           "interpolate",
           ["linear"],
           ["to-number", ["coalesce", ["get", "render_height"], ["get", "height"], 15], 15],
-          0, "#a0aebc",
-          25, "#7b8a99",
-          70, "#5a6b7c",
-          150, "#3f4f60",
-          300, "#253241"
+          0, "#eae3d5",
+          25, "#d5cbbe",
+          60, "#a8b5c4",
+          120, "#5b7086",
+          250, "#2c3b4d"
         ],
         "fill-extrusion-height": [
           "to-number",
@@ -96,7 +132,7 @@
         "text-letter-spacing": 0.1
       },
       "paint": {
-        "text-color": "#475569",
+        "text-color": "#4a5568",
         "text-halo-color": "#ffffff",
         "text-halo-width": 2
       }
@@ -113,7 +149,7 @@
         "text-transform": "uppercase"
       },
       "paint": {
-        "text-color": "#1e293b",
+        "text-color": "#2d3748",
         "text-halo-color": "#ffffff",
         "text-halo-width": 2.5
       }
