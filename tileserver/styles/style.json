@@ -8,9 +8,9 @@
   "glyphs": "http://localhost:3000/fonts/{fontstack}/{range}.pbf",
   "light": {
     "anchor": "viewport",
-    "color": "#fffaf0",
-    "intensity": 0.45,
-    "position": [1.15, 210, 35]
+    "color": "#ffffff",
+    "intensity": 0.58,
+    "position": [1.4, 210, 42]
   },
   "sources": {
     "uae-vector": {
@@ -201,14 +201,20 @@
       "maxzoom": 24,
       "paint": {
         "fill-extrusion-color": [
-          "interpolate",
-          ["linear"],
-          ["to-number", ["coalesce", ["get", "render_height"], ["get", "height"], 15], 15],
-          0, "#eae3d5",
-          25, "#d5cbbe",
-          60, "#a8b5c4",
-          120, "#5b7086",
-          250, "#2c3b4d"
+          "case",
+          ["==", ["coalesce", ["get", "name:en"], ["get", "name"], ""], "Burj Khalifa"],
+          "#4a96c9",
+          [
+            "interpolate",
+            ["linear"],
+            ["to-number", ["coalesce", ["get", "render_height"], ["get", "height"], 15], 15],
+            0, "#ede8dd",
+            20, "#d8dede",
+            60, "#b8c9db",
+            150, "#8fa7bf",
+            350, "#5e7e9e",
+            800, "#3e5d7d"
+          ]
         ],
         "fill-extrusion-height": [
           "to-number",
@@ -220,7 +226,7 @@
           ["coalesce", ["get", "render_min_height"], ["get", "min_height"], 0],
           0
         ],
-        "fill-extrusion-opacity": 0.94,
+        "fill-extrusion-opacity": 0.95,
         "fill-extrusion-vertical-gradient": true
       }
     },
