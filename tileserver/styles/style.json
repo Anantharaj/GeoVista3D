@@ -25,7 +25,7 @@
       "id": "background",
       "type": "background",
       "paint": {
-        "background-color": "#f6f3eb"
+        "background-color": "#f4f0e6"
       }
     },
     {
@@ -34,7 +34,7 @@
       "source": "uae-vector",
       "source-layer": "landuse",
       "paint": {
-        "fill-color": "#ede6d8"
+        "fill-color": "#eae2d2"
       }
     },
     {
@@ -43,8 +43,8 @@
       "source": "uae-vector",
       "source-layer": "landcover",
       "paint": {
-        "fill-color": "#d8ebd3",
-        "fill-opacity": 0.7
+        "fill-color": "#d5e9ce",
+        "fill-opacity": 0.75
       }
     },
     {
@@ -53,8 +53,8 @@
       "source": "uae-vector",
       "source-layer": "park",
       "paint": {
-        "fill-color": "#c7e8be",
-        "fill-opacity": 0.8
+        "fill-color": "#c3e5b9",
+        "fill-opacity": 0.85
       }
     },
     {
@@ -63,29 +63,135 @@
       "source": "uae-vector",
       "source-layer": "water",
       "paint": {
-        "fill-color": "#6fa8dc"
+        "fill-color": "#639ec9"
       }
     },
+
     {
-      "id": "transportation-casing",
+      "id": "road-minor-casing",
       "type": "line",
       "source": "uae-vector",
       "source-layer": "transportation",
+      "filter": ["match", ["get", "class"], ["minor", "service", "residential", "track"], true, false],
+      "minzoom": 12,
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round"
+      },
       "paint": {
-        "line-color": "#ded5c5",
-        "line-width": 4
+        "line-color": "#cdc1b0",
+        "line-width": [
+          "interpolate", ["exponential", 1.5], ["zoom"],
+          12, 1.5,
+          15, 4.5,
+          18, 10
+        ]
       }
     },
     {
-      "id": "transportation",
+      "id": "road-minor",
       "type": "line",
       "source": "uae-vector",
       "source-layer": "transportation",
+      "filter": ["match", ["get", "class"], ["minor", "service", "residential", "track"], true, false],
+      "minzoom": 12,
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round"
+      },
       "paint": {
         "line-color": "#ffffff",
-        "line-width": 2
+        "line-width": [
+          "interpolate", ["exponential", 1.5], ["zoom"],
+          12, 0.8,
+          15, 3,
+          18, 8
+        ]
       }
     },
+
+    {
+      "id": "road-primary-casing",
+      "type": "line",
+      "source": "uae-vector",
+      "source-layer": "transportation",
+      "filter": ["match", ["get", "class"], ["primary", "secondary", "tertiary"], true, false],
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "#bcae9b",
+        "line-width": [
+          "interpolate", ["exponential", 1.5], ["zoom"],
+          8, 1.5,
+          13, 5,
+          18, 16
+        ]
+      }
+    },
+    {
+      "id": "road-primary",
+      "type": "line",
+      "source": "uae-vector",
+      "source-layer": "transportation",
+      "filter": ["match", ["get", "class"], ["primary", "secondary", "tertiary"], true, false],
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "#ffffff",
+        "line-width": [
+          "interpolate", ["exponential", 1.5], ["zoom"],
+          8, 0.8,
+          13, 3.5,
+          18, 13
+        ]
+      }
+    },
+
+    {
+      "id": "road-highway-casing",
+      "type": "line",
+      "source": "uae-vector",
+      "source-layer": "transportation",
+      "filter": ["match", ["get", "class"], ["motorway", "trunk"], true, false],
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "#d98328",
+        "line-width": [
+          "interpolate", ["exponential", 1.5], ["zoom"],
+          6, 2,
+          13, 7,
+          18, 20
+        ]
+      }
+    },
+    {
+      "id": "road-highway",
+      "type": "line",
+      "source": "uae-vector",
+      "source-layer": "transportation",
+      "filter": ["match", ["get", "class"], ["motorway", "trunk"], true, false],
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "#fbbd61",
+        "line-width": [
+          "interpolate", ["exponential", 1.5], ["zoom"],
+          6, 1,
+          13, 5,
+          18, 16
+        ]
+      }
+    },
+
     {
       "id": "3d-buildings-extrusion",
       "type": "fill-extrusion",
@@ -127,14 +233,18 @@
         "symbol-placement": "line",
         "text-field": ["coalesce", ["get", "name:en"], ["get", "name:latin"], ["get", "name"], ""],
         "text-font": ["Open Sans Regular"],
-        "text-size": 11,
+        "text-size": [
+          "interpolate", ["linear"], ["zoom"],
+          12, 10,
+          16, 13
+        ],
         "text-transform": "uppercase",
         "text-letter-spacing": 0.1
       },
       "paint": {
-        "text-color": "#4a5568",
+        "text-color": "#2c3e50",
         "text-halo-color": "#ffffff",
-        "text-halo-width": 2
+        "text-halo-width": 2.5
       }
     },
     {
@@ -149,9 +259,9 @@
         "text-transform": "uppercase"
       },
       "paint": {
-        "text-color": "#2d3748",
+        "text-color": "#1a252f",
         "text-halo-color": "#ffffff",
-        "text-halo-width": 2.5
+        "text-halo-width": 3
       }
     },
     {
@@ -163,10 +273,10 @@
       "layout": {
         "text-field": ["coalesce", ["get", "name:en"], ["get", "name:latin"], ["get", "name"], ""],
         "text-font": ["Open Sans Regular"],
-        "text-size": 10
+        "text-size": 10.5
       },
       "paint": {
-        "text-color": "#334155",
+        "text-color": "#34495e",
         "text-halo-color": "#ffffff",
         "text-halo-width": 2
       }
