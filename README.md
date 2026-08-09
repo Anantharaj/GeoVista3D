@@ -10,9 +10,8 @@ It features **3D extruded building elevations**, custom camera view controls, bu
 
 ### Prerequisites
 
-Make sure you have installed:
-1. **[Node.js 18+](https://nodejs.org/)**
-2. **[Docker Desktop](https://www.docker.com/products/docker-desktop/)** (Make sure Docker is running)
+1. **[Node.js 18+](https://nodejs.org/)** installed.
+2. **[Docker Desktop](https://www.docker.com/products/docker-desktop/)** installed.
 
 ---
 
@@ -20,58 +19,63 @@ Make sure you have installed:
 
 1. Download **`uae.mbtiles.zip`** from the [GeoVista3D GitHub Release v1.0.0](https://github.com/Anantharaj/GeoVista3D/releases/tag/v1.0.0).
 2. Unzip `uae.mbtiles.zip` to extract **`uae.mbtiles`**.
-3. Move `uae.mbtiles` into the `tileserver/` folder inside this project.
+3. Place **`uae.mbtiles`** inside the `tileserver/` folder in your project directory.
 
-The `tileserver/` folder should now look like:
+Your `tileserver/` folder should look like this:
 ```
-tileserver/
-├── config.json
-├── uae.mbtiles   <-- (Downloaded & unzipped file)
-└── styles/
-    └── style.json
+GeoVista3D/
+└── tileserver/
+    ├── config.json
+    ├── uae.mbtiles   <-- (Extracted file goes here)
+    └── styles/
+        └── style.json
 ```
 
 ---
 
 ### Step 2: Start Local TileServer GL (Docker)
 
-Open your terminal in the project root directory and run the command for your OS:
+Follow these exact 3 steps to start the tile server in Docker:
 
-#### 🍏 macOS / 🐧 Linux:
-```bash
-docker run --name uae-tileserver -d \
-  -v $(pwd)/tileserver:/data \
-  -p 8080:8080 \
-  maptiler/tileserver-gl --config /data/config.json
-```
+1. **Open Docker Desktop**: Launch the **Docker Desktop** application on your computer and make sure it is running (green status).
+2. **Open Terminal**: Open your terminal (or Command Prompt) and navigate to the project folder:
+   ```bash
+   cd path/to/GeoVista3D
+   ```
+3. **Run Docker Command**: Copy and paste the command for your operating system and press **Enter**:
 
-#### 🪟 Windows (PowerShell):
-```powershell
-docker run --name uae-tileserver -d -v "${PWD}/tileserver:/data" -p 8080:8080 maptiler/tileserver-gl --config /data/config.json
-```
+   - 🍏 **macOS / 🐧 Linux**:
+     ```bash
+     docker run --name uae-tileserver -d -v "$(pwd)/tileserver:/data" -p 8080:8080 maptiler/tileserver-gl --config /data/config.json
+     ```
 
-#### 🪟 Windows (Command Prompt - CMD):
-```cmd
-docker run --name uae-tileserver -d -v "%cd%/tileserver:/data" -p 8080:8080 maptiler/tileserver-gl --config /data/config.json
-```
+   - 🪟 **Windows (PowerShell)**:
+     ```powershell
+     docker run --name uae-tileserver -d -v "${PWD}/tileserver:/data" -p 8080:8080 maptiler/tileserver-gl --config /data/config.json
+     ```
 
-> **Verify**: Open [http://localhost:8080](http://localhost:8080) in your browser. You should see TileServer GL serving vector tiles.
+   - 🪟 **Windows (Command Prompt - CMD)**:
+     ```cmd
+     docker run --name uae-tileserver -d -v "%cd%/tileserver:/data" -p 8080:8080 maptiler/tileserver-gl --config /data/config.json
+     ```
+
+> **How to check if it worked**: Open [http://localhost:8080](http://localhost:8080) in your browser. You will see the TileServer GL page showing vector tiles and styles.
 
 ---
 
 ### Step 3: Run the Next.js App
 
-1. Install project dependencies:
+1. In your terminal, install project dependencies:
 ```bash
 npm install
 ```
 
-2. Start the development server:
+2. Start the development web server:
 ```bash
 npm run dev
 ```
 
-3. Open [http://localhost:3000](http://localhost:3000) in your browser!
+3. Open [http://localhost:3000](http://localhost:3000) in your browser to see your 3D Map!
 
 ---
 
@@ -85,37 +89,17 @@ npm run dev
 
 ---
 
-## 📦 Project Structure
+## 🛠️ Stop or Restart TileServer GL
 
-```
-GeoVista3D/
-├── public/
-│   └── fonts/             # Offline PBF font glyph ranges
-├── src/
-│   ├── app/
-│   │   ├── fonts/         # Next.js route handler for font fallback
-│   │   ├── globals.css
-│   │   └── page.js
-│   ├── components/
-│   │   └── Offline3DMap.jsx # MapLibre GL 3D Map Component
-│   └── data/
-│       └── locations.js   # UAE preset coordinates
-├── tileserver/
-│   ├── config.json        # TileServer GL configuration
-│   ├── uae.mbtiles        # Place downloaded uae.mbtiles here
-│   └── styles/
-│       └── style.json     # MapLibre vector style with 3D extrusions & labels
-├── next.config.mjs        # MapLibre Webpack & Turbopack aliases
-└── README.md
-```
-
----
-
-## 🛠️ Production Build
-
-To build and run the production bundle:
-
-```bash
-npm run build
-npm run start
-```
+- **Stop TileServer**:
+  ```bash
+  docker stop uae-tileserver
+  ```
+- **Restart TileServer**:
+  ```bash
+  docker start uae-tileserver
+  ```
+- **Remove Container**:
+  ```bash
+  docker rm -f uae-tileserver
+  ```
